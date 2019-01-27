@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Survey</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row pt-4">
+        <div class="col-md-12">
+          <h2 id="question1heading">Question #1</h2>
+          <p>You enjoy a nice cup of coffee first thing in the morning.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="question1"
+              id="question1option1"
+              value="1"
+            />
+            <label class="form-check-label" for="question1option1">1</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="question1"
+              id="question1option2"
+              value="2"
+            />
+            <label class="form-check-label" for="question1option2">2</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="question1"
+              id="question1option3"
+              value="3"
+            />
+            <label class="form-check-label" for="question1option3">3</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="question1"
+              id="question1option4"
+              value="4"
+            />
+            <label class="form-check-label" for="question1option4">4</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="question1"
+              id="question1option5"
+              value="5"
+            />
+            <label class="form-check-label" for="question1option5">5</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row pt-4">
+        <div class="col-md-12">
+          <h2 id="question2heading">Question #2</h2>
+          <p>Are you a dog person?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="question2"
+              id="question2option1"
+              value="1"
+            />
+            <label class="form-check-label" for="question2option1">1</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="question2"
+              id="question2option2"
+              value="2"
+            />
+            <label class="form-check-label" for="question2option2">2</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="question2"
+              id="question2option3"
+              value="3"
+            />
+            <label class="form-check-label" for="question2option3">3</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="question2"
+              id="question2option4"
+              value="4"
+            />
+            <label class="form-check-label" for="question2option4">4</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="question2"
+              id="question2option5"
+              value="5"
+            />
+            <label class="form-check-label" for="question2option5">5</label>
+          </div>
+        </div>
+      </div>
+      <div class="row pt-4">
+        <button
+          type="button"
+          class="btn btn-primary btn-lg"
+          id="submit-choices"
+        >
+          Submit Choices
+        </button>
+      </div>
+    </div>
+  </body>
+  <script>
+    var questions = [$("#question1heading"), $("#question2heading")];
+    $("#submit-choices").click(function() {
+      var choiceValues = [
+        parseInt($("input[name=question1]:checked").val()),
+        parseInt($("input[name=question2]:checked").val())
+      ];
+
+      var incomplete = false;
+      for (var i = 0; i < choiceValues.length; i++) {
+        questions[i].removeClass("text-danger");
+        if (isNaN(choiceValues[i])) {
+          incomplete = true;
+          questions[i].addClass("text-danger");
+        }
+      }
+
+      if (incomplete) {
+        alert("Please answer all questions!");
+      } else {
+        alert("Values: " + choiceValues);
+      }
+    });
+  </script>
+</html>
