@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Survey</title>
+    <title>Friend Finder • Survey</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
@@ -16,6 +16,14 @@
   </head>
   <body>
     <div class="container">
+      <div class="jumbotron">
+        <h1 class="display-4">Friend Finder</h1>
+        <p class="lead">
+          Answer 10 simple questions to find the friend you match with the best.
+        </p>
+        <hr class="my-4" />
+        <a class="btn btn-primary btn-lg" href="/" role="button">Go Home</a>
+      </div>
       <!-- QUESTION 1 -->
       <div class="row pt-4">
         <div class="col-md-12">
@@ -695,23 +703,15 @@
         <div class="col-md-6">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="photoInput">Photo</span>
+              <span class="input-group-text" id="photoInput">Photo (URL)</span>
             </div>
-            <div class="custom-file">
-              <input
-                type="file"
-                class="custom-file-input"
-                accept="image/*"
-                id="photoFileInput"
-                aria-describedby="photoInput"
-              />
-              <label
-                id="photoLabel"
-                class="custom-file-label"
-                for="photoFileInput"
-                >Choose file</label
-              >
-            </div>
+            <input
+              type="text"
+              class="form-control"
+              id="photoTextInput"
+              aria-label="Sizing example input"
+              aria-describedby="photoInput"
+            />
           </div>
         </div>
       </div>
@@ -775,7 +775,6 @@
       $("#question10heading")
     ];
     $("#submit-choices").click(function() {
-      $("#matchModal").modal();
       var choiceValues = [
         parseInt($("input[name=question1]:checked").val()),
         parseInt($("input[name=question2]:checked").val()),
@@ -793,7 +792,7 @@
       var noImage = false;
       var alertMessage = "";
 
-      if (!$("input[id=photoFileInput]").val()) {
+      if (!$("input[id=photoTextInput]").val()) {
         incomplete = true;
         alertMessage = "Select a photo to continue!";
       }
@@ -816,8 +815,12 @@
         alert(alertMessage);
       } else {
         var userObject = {
-          name: $("input[id=nameTextInput]").val(),
-          photo: $("input[id=photoFileInput]").val(),
+          name: $("input[id=nameTextInput]")
+            .val()
+            .trim(),
+          photo: $("input[id=photoTextInput]")
+            .val()
+            .trim(),
           scores: choiceValues
         };
 
