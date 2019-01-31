@@ -684,6 +684,7 @@
             </div>
             <input
               type="text"
+              maxlength="20"
               class="form-control"
               id="nameTextInput"
               aria-label="Sizing example input"
@@ -726,6 +727,33 @@
         </div>
       </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="matchModal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Friend Match!</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="match-name"></p>
+            <img
+              id="match-photo"
+              src=""
+              alt="Photo of friend match"
+              style="width: 100%;"
+            />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
   <script>
     $("#photoFileInput").change(function() {
@@ -747,6 +775,7 @@
       $("#question10heading")
     ];
     $("#submit-choices").click(function() {
+      $("#matchModal").modal();
       var choiceValues = [
         parseInt($("input[name=question1]:checked").val()),
         parseInt($("input[name=question2]:checked").val()),
@@ -791,12 +820,46 @@
           photo: $("input[id=photoFileInput]").val(),
           scores: choiceValues
         };
-        console.log(userObject);
-        $.post("/api/friends", userObject).then(function(data) {
-          console.log("Data posted: ");
-          console.log(data);
-        });
+
+        var dataVerified = false;
+        var imageArray = userObject.photo.split(".");
+        var imageExtension = imageArray.slice(
+          imageArray.length - 1,
+          imageArray.length
+        );
+        console.log(imageExtension);
+
+        if (Object.keys(userObject).length === 3) {
+          if (userObject.name.length <= 20) {
+            if (userObject.scores.length === 10) {
+              if (
+                userObject.scores.every(function(num) {
+                  return !isNaN(num);
+                })
+              )
+                dataVerified = true;
+            }
+          }
+        }
+
+        if (dataVerified) {
+          var dataToSend = {
+            newData: JSON.stringify(userObject)
+          };
+          $.post("/api/friends", dataToSend).then(function(data) {
+            var matchData = JSON.parse(data);
+            console.log("Friend match: ");
+            console.log(matchData);
+            $("#match-name").text(matchData.name);
+            $("#match-photo").attr("src", matchData.photo);
+            $("#matchModal").modal();
+          });
+        }
       }
     });
+
+    function verifyArray(num) {
+      return !isNaN(num);
+    }
   </script>
 </html>
