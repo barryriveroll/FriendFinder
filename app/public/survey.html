@@ -755,6 +755,14 @@
         </div>
       </div>
     </div>
+    <footer class="p-2 mt-4 bg-light text-center">
+      <p>
+        <a target="_blank" href="https://github.com/barryriveroll/FriendFinder"
+          >View on Github</a
+        >
+      </p>
+      <p><a target="_blank" href="/api/friends">View API</a></p>
+    </footer>
   </body>
   <script>
     $("#photoFileInput").change(function() {
@@ -776,7 +784,7 @@
       $("#question10heading")
     ];
     $("#submit-choices").click(function() {
-      $(".alert").alert('close')	
+      $(".alert").alert("close");
       var choiceValues = [
         parseInt($("input[name=question1]:checked").val()),
         parseInt($("input[name=question2]:checked").val()),
