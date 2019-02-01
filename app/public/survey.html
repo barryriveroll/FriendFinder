@@ -685,6 +685,7 @@
         </div>
       </div>
       <div class="row pt-5">
+        <div class="col-md-12" id="alert-div"></div>
         <div class="col-md-6">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -775,6 +776,7 @@
       $("#question10heading")
     ];
     $("#submit-choices").click(function() {
+      $(".alert").alert('close')	
       var choiceValues = [
         parseInt($("input[name=question1]:checked").val()),
         parseInt($("input[name=question2]:checked").val()),
@@ -788,31 +790,61 @@
         parseInt($("input[name=question10]:checked").val())
       ];
       var incomplete = false;
+      var incompleteAnswers = false;
       var noName = false;
       var noImage = false;
       var alertMessage = "";
 
+      for (var i = 0; i < choiceValues.length; i++) {
+        questions[i].removeClass("text-danger");
+        if (isNaN(choiceValues[i])) {
+          if (!incomplete) {
+            var appendString =
+              '<div class="alert alert-danger alert-dismissible fade show"';
+            appendString += ' role="alert">';
+            appendString +=
+              "<strong>Warning!</strong> You must answer all questions.";
+            appendString +=
+              '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+            appendString += '<span aria-hidden="true">&times;</span>';
+            appendString += "</button></div>";
+
+            $("#alert-div").append(appendString);
+          }
+          incomplete = true;
+          questions[i].addClass("text-danger");
+        }
+      }
+
       if (!$("input[id=photoTextInput]").val()) {
         incomplete = true;
-        alertMessage = "Select a photo to continue!";
+        var appendString =
+          '<div class="alert alert-danger alert-dismissible fade show"';
+        appendString += ' role="alert">';
+        appendString += "<strong>Warning!</strong> Enter a photo URL.";
+        appendString +=
+          '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+        appendString += '<span aria-hidden="true">&times;</span>';
+        appendString += "</button></div>";
+
+        $("#alert-div").append(appendString);
       }
 
       if (!$("input[id=nameTextInput]").val()) {
         incomplete = true;
-        alertMessage = "Enter your name!";
-      }
+        var appendString =
+          '<div class="alert alert-danger alert-dismissible fade show"';
+        appendString += ' role="alert">';
+        appendString += "<strong>Warning!</strong> Enter your name.";
+        appendString +=
+          '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+        appendString += '<span aria-hidden="true">&times;</span>';
+        appendString += "</button></div>";
 
-      for (var i = 0; i < choiceValues.length; i++) {
-        questions[i].removeClass("text-danger");
-        if (isNaN(choiceValues[i])) {
-          incomplete = true;
-          questions[i].addClass("text-danger");
-          alertMessage = "Please answer all questions!";
-        }
+        $("#alert-div").append(appendString);
       }
 
       if (incomplete) {
-        alert(alertMessage);
       } else {
         var userObject = {
           name: $("input[id=nameTextInput]")
